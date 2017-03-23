@@ -1,6 +1,6 @@
 # Email Cryptography
 
-An Application to produce 'Signed & Enveloped' messages in order to provide emails with integrity, authentication & confidentiality.
+An Application to produce 'Signed & Enveloped' messages in order to provide emails integrity, authentication & confidentiality.
 
 ## Overview
 
