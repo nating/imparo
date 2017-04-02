@@ -14,7 +14,7 @@ InboxSDK.load('1.0', 'sdk_emailCrypto_46f3ba50a5').then(function(sdk){
     // a compose view has come into existence, do something with it!
     composeView.addButton({
       title: "Encrypt/Decrypt",
-      iconUrl: 'encrypt-icon.png',
+      iconUrl: 'https://github.com/nating/email-cryptography/blob/master/assets/logo.png?raw=true',
       onClick: function(event) {
         var sub = event.composeView.getSubject();
         var cont = event.composeView.getTextContent();
