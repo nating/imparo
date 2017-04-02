@@ -9,7 +9,10 @@
   "content_scripts" : [
     {
       "matches": ["https://mail.google.com/*", "https://inbox.google.com/*"],
-      "js": ["inboxsdk.js", "myapp.js"]
+      "js": ["inboxsdk.js", "myapp.js","aes.js","api.js","cryptico.js","hash.js","jsbn.js","random.js","rsa.js"]
     }
-  ]
+  ],
+  "browser_action": {
+    "default_title": "Encrypt baby"
+  }
 }
