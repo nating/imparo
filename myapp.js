@@ -1,8 +1,6 @@
-/*const passPhrase = "The Moon is a Harsh Mistress."; 
-const bitLengthOfPrivateKey = 1024; 
-const privatekey = cryptico.generateRSAKey(PassPhrase, bitLengthOfPrivateKey);
-const publicKey = publicKey(privatekey);
-*/
+
+
+
 //This line should be changed to load a script from GitHub so that
 // The app can be updated frequently without constant republishing.
 //   (https://www.inboxsdk.com/docs/)
@@ -41,7 +39,6 @@ InboxSDK.load('1.0', 'sdk_emailCrypto_46f3ba50a5').then(function(sdk){
 //  Text encrypted and signed
 var encrypt = function(text,key){
   return "Remy Boys!";
-  return cryptico.encrypt(text,key);
 }
 
 
@@ -51,7 +48,7 @@ var encrypt = function(text,key){
 //Returns:
 //  Decrypted text
 var decrypt = function(text,key){
-  return cryptico.decrypt(text,key);
+  return "Decrypted!";
 }
 
 
