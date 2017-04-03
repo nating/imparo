@@ -3,13 +3,15 @@
   "name": "Hello World Extension",
   "version": "1.0",
   "permissions": [
+    "storage",
     "https://mail.google.com/",
     "https://inbox.google.com/"
   ],
+  "options_page" : "options.html",
   "content_scripts" : [
     {
       "matches": ["https://mail.google.com/*", "https://inbox.google.com/*"],
-      "js": ["inboxsdk.js", "myapp.js","aes.js","api.js","cryptico.js","hash.js","jsbn.js","random.js","rsa.js"]
+      "js": ["openpgp.min.js","openpgp.worker.min.js","inboxsdk.js", "myapp.js","options.js"]
     }
   ],
   "browser_action": {

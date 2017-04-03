@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head><title>Imparo Options</title></head>
+<link rel="stylesheet" href="options.css">
+<body> 
+<h1>Imparo Options</h1>
+<img src="https://github.com/nating/imparo/blob/master/assets/logo-512.png?raw=true" width="150px"><img> 
+<h2>Personal Details<h2>
+<h3>Email Address:</h3><p id="personal-email-address">fake@faker.com</p>
+<h3>Public Key:</h3><p id="personal-public-key">lol don't use this</p>
+<h2>Saved Contacts</h2>
+<ul id="contacts">
+	
+</ul>
+<h2>Add new Contact</h2>
+<form id="newContact">
+  Email:<br>
+  <input type="text" name="new-contact-email-address">
+  <br>
+  Public key:<br>
+  <input type="text" name="new-contact-public-key">
+  <br><br>
+  <input type="submit" value="Add Contact">
+</form> 
+<h2>Generate new keys</h2>
+<form>
+  Email:<br>
+  <input type="text" id="new-personal-email-address">
+  <br>
+  Passphrase:<br>
+  <input type="text" id="new-personal-passphrase">
+  <br><br>
+  <input id="newKeySubmit" type="button" value="Generate new Keys">
+  <p id="generating"></p>
+</form> 
+
+<script src="openpgp.min.js"></script>
+<script src="options.js"></script>
+</body>
+</html>
