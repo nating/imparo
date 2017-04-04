@@ -1,11 +1,18 @@
+/*  
+    Created by Geoffrey Natin 3/4/17
+    nating@tcd.ie
+    14318196
+*/
 
+//Run cryptography worker thread
+openpgp.initWorker({ path:'openpgp.worker.min.js' });
 
-openpgp.initWorker({ path:'openpgp.worker.min.js' })
+//-----------------------------------------------------Saving New Keys-----------------------------------------------------
 
-// Saves options to chrome.storage
-var save_options = function(){
+//Save keys from new keys input
+var save_keys = function(){
 
-  var ge = document.getElementById('generating');
+  var ge = document.getElementById('generating-keys');
   ge.textContent = "Generating new keys.";
 
 
@@ -25,8 +32,9 @@ var save_options = function(){
 
 	  chrome.storage.sync.set({
 	    personalemail: emailInput,
+	    passphrase: passphraseInput,
 	    personalpassphrase: passphraseInput,
-	    privatekey: key.publicKeyArmored,
+	    privatekey: key.privateKeyArmored,
 	    publickey: key.publicKeyArmored
 	  }, function() {
 	    // Update status to let user know options were saved.
@@ -41,57 +49,139 @@ var save_options = function(){
 	  });
 
   })
+  return true;
 };
 
+//-----------------------------------------------------Saving a new contact-----------------------------------------------------
 
-document.getElementById("newKeySubmit").onclick = function(){
-	save_options();
+//Save contact from new contact input
+var save_contact = function(){
+
+	//Get html elements from page
+	var g = document.getElementById('adding-contact');
+	var e = document.getElementById('new-contact-email-address');
+	var p = document.getElementById('new-contact-public-key');
+
+	//Update user with current progress
+	g.textContent = "Adding contact...";
+
+	//Extract values from html elements
+	var emailInput = e.value;
+	var pubKeyInput = p.value;
+
+	//Get stored contacts data
+	chrome.storage.sync.get(["people"], function(items) {
+		var peopleString = items.people || "{}";
+		var peopleJSON = JSON.parse(peopleString);
+
+		//Update contacts data
+		peopleJSON[emailInput] = pubKeyInput;
+		peopleString = JSON.stringify(peopleJSON);
+
+		//Store new contacts data
+		chrome.storage.sync.set({
+		  	people: peopleString
+		},function() {
+
+		    //Update status to let user know contact was saved
+		    g.textContent = "New Contact was added."
+
+		    //Clear all inputs after interval
+		    setTimeout(function() {
+		      	g.textContent = '';
+		    	e.textContent = '';
+		    	p.textContent = '';
+		    }, 750);
+
+		    //Update list of contacts displayed on page
+			var str = "";
+			for (var key in peopleJSON) {
+			  if (peopleJSON.hasOwnProperty(key)) {
+			    str += key + "\t:\t" + peopleJSON[key].substring(95,95+50)+"...<br><br>"; //First 95 characters of public key are always the same
+			  }
+			}
+			document.getElementById('contacts').innerHTML = str;
+		});
+	});
+	return true;
 };
 
-/*
-// Restores select box and checkbox state using the preferences
-// stored in chrome.storage.
-function restore_options() {
-  // Use default value color = 'red' and likesColor = true.
-  chrome.storage.sync.get({
-    favoriteColor: 'red',
-    likesColor: true
-  }, function(items) {
-    document.getElementById('color').value = items.favoriteColor;
-    document.getElementById('like').checked = items.likesColor;
-  });
-}
-document.addEventListener('DOMContentLoaded', restore_options);
-document.getElementById('save').addEventListener('click',
-    save_options);
+//-----------------------------------------------------Deleting a contact-----------------------------------------------------
 
+//Delete contact from new contact input
+var delete_contact = function(){
 
+	//Get html elements from page
+  	var g = document.getElementById('adding-contact');
+  	var e = document.getElementById('new-contact-email-address');
+  	var p = document.getElementById('new-contact-public-key');
 
+  	//Update user with current progress
+  	g.textContent = "Deleting contact...";
 
+  	//Extract values from html elements
+  	var emailInput = e.value;
 
+  	//Get stored contacts data
+	chrome.storage.sync.get(["people"], function(items) {
+		var peopleString = items.people || "{}";
+		var peopleJSON = JSON.parse(peopleString);
 
+		//Update contacts data
+		delete peopleJSON[emailInput];
+		peopleString = JSON.stringify(peopleJSON);
 
+		//Store updated contacts data
+		chrome.storage.sync.set({
+		  	people: peopleString
+		},function() {
 
-var generateKeys = function(){
+		    //Update status to let user know contact was deleted
+		    g.textContent = "Contact was deleted."
 
-  var options = {
-      userIds: [{ email: 'real@email.com' }],   // multiple user IDs
-      numBits: 4096,                            // RSA key size
-      passphrase: 'A passphrase that will not be hardcoded'          // protects the private key
-  };
+		    //Clear inputs after an interval
+		    setTimeout(function() {
+		      	g.textContent = '';
+		    	e.textContent = '';
+		    	p.textContent = '';
+		    }, 750);
 
-  openpgp.generateKey(options).then(function(key) {
-    setPrivateKey(key.privateKeyArmored);
-    setPublicKey(key.publicKeyArmored);
-  })
+		    //Update list of contacts displayed on page
+			var str = "";
+			for (var key in peopleJSON) {
+			  if (peopleJSON.hasOwnProperty(key)) {
+			    str += key + "\t:\t" + peopleJSON[key].substring(95,95+50)+"...<br><br>"; //First 95 characters of public key are always the same
+			  }
+			}
+			document.getElementById('contacts').innerHTML = str;
+		});
+	});
+	return true;
+};
 
-}
+//------------------------------------------------Fixing up HTML onLoad--------------------------------------------------
 
-var getPublicKey = function(){
+//Get stored data about keys
+var storedItems = ["personalemail","publickey","people"];
+chrome.storage.sync.get(storedItems, function(items) {
 
-}
+	//Display user credentials on page
+	document.getElementById('personal-email-address').textContent = items.personalemail;
+	document.getElementById('personal-public-key').textContent = items.publickey;
 
-var getPrivateKey = function(){
+	//Display user's contacts on page
+	var peopleString = items.people || "{}";
+	var peopleJSON = JSON.parse(peopleString);
+	var str = "";
+	for (var key in peopleJSON) {
+	  if (peopleJSON.hasOwnProperty(key)) {
+	    str += key + "\t:\t" + peopleJSON[key].substring(95,95+50)+"...<br><br>"; //First 95 characters of public key are always the same
+	  }
+	}
+	document.getElementById('contacts').innerHTML = str;
+});
 
-}
-*/
+//Add onClick methods to various buttons on page
+document.getElementById("newKeySubmit").onclick = function(){save_keys();};
+document.getElementById("deleteContactSubmit").onclick = function(){delete_contact();};
+document.getElementById('newContactSubmit').onclick = function(){save_contact();}

@@ -6,21 +6,23 @@
 <h1>Imparo Options</h1>
 <img src="https://github.com/nating/imparo/blob/master/assets/logo-512.png?raw=true" width="150px"><img> 
 <h2>Personal Details<h2>
-<h3>Email Address:</h3><p id="personal-email-address">fake@faker.com</p>
-<h3>Public Key:</h3><p id="personal-public-key">lol don't use this</p>
+<h3>Email Address:</h3>
+<p id="personal-email-address"></p>
+<h3>Public Key:</h3>
+<p id="personal-public-key"></p>
 <h2>Saved Contacts</h2>
-<ul id="contacts">
-	
-</ul>
+<p id="contacts"></p>
 <h2>Add new Contact</h2>
 <form id="newContact">
   Email:<br>
-  <input type="text" name="new-contact-email-address">
+  <input type="text" id="new-contact-email-address">
   <br>
   Public key:<br>
-  <input type="text" name="new-contact-public-key">
+  <input type="text" id="new-contact-public-key">
   <br><br>
-  <input type="submit" value="Add Contact">
+  <input id="newContactSubmit" type="button" value="Add new contact">
+  <input id="deleteContactSubmit" type="button" value="Delete contact">
+  <p id="adding-contact"></p>
 </form> 
 <h2>Generate new keys</h2>
 <form>
@@ -31,9 +33,8 @@
   <input type="text" id="new-personal-passphrase">
   <br><br>
   <input id="newKeySubmit" type="button" value="Generate new Keys">
-  <p id="generating"></p>
+  <p id="generating-keys"></p>
 </form> 
-
 <script src="openpgp.min.js"></script>
 <script src="options.js"></script>
 </body>

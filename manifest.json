@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "Hello World Extension",
+  "name": "Imparo",
   "version": "1.0",
   "permissions": [
     "storage",
@@ -8,18 +8,23 @@
     "https://inbox.google.com/"
   ],
   "options_page" : "options.html",
+  "background": {
+    "page":"background.html",
+    "background_page": ["background.html"]
+  },
   "content_scripts" : [
     {
       "matches": ["https://mail.google.com/*", "https://inbox.google.com/*"],
-      "js": ["openpgp.min.js","openpgp.worker.min.js","inboxsdk.js", "myapp.js","options.js"]
+      "js": ["openpgp.min.js","inboxsdk.js", "myapp.js"]
     }
   ],
   "browser_action": {
-    "default_title": "Encrypt baby"
+    "default_title": "Imparo"
   },
   "icons": { "16": "assets/logo-16.png",
              "48": "assets/logo-48.png",
             "128": "assets/logo-128.png",
             "256": "assets/logo-256.png",
-            "512": "assets/logo-512.png" }
+            "512": "assets/logo-512.png" 
+  }
 }
