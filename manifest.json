@@ -15,7 +15,7 @@
   "content_scripts" : [
     {
       "matches": ["https://mail.google.com/*", "https://inbox.google.com/*"],
-      "js": ["openpgp.min.js","inboxsdk.js", "myapp.js"]
+      "js": ["openpgp.min.js","inboxsdk.js", "imparo.js"]
     }
   ],
   "browser_action": {
